@@ -160,13 +160,10 @@ const createRequest = (uri, data, options) => {
   return new Promise((resolve, reject) => {
     // 变量声明和初始化
     const headers = options.headers ? { ...options.headers } : {}
-    const ip = options.realIP || options.ip || ''
-
-    // IP头设置
-    if (ip) {
-      headers['X-Real-IP'] = ip
-      headers['X-Forwarded-For'] = ip
-    }
+    // 固定使用大陆 IP 绕过网易云风控
+    const ip = options.realIP || options.ip || '116.25.146.177'
+    headers['X-Real-IP'] = ip
+    headers['X-Forwarded-For'] = ip
 
     let cookie = options.cookie || {}
     if (typeof cookie === 'string') {
